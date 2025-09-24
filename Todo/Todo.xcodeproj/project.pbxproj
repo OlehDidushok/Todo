@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CED408152E8456F9003337CF /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = CED408142E8456F9003337CF /* ComposableArchitecture */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		CED408052E845338003337CF /* Todo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Todo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CED408152E8456F9003337CF /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = Todo;
 			packageProductDependencies = (
+				CED408142E8456F9003337CF /* ComposableArchitecture */,
 			);
 			productName = Todo;
 			productReference = CED408052E845338003337CF /* Todo.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = CED407FC2E845338003337CF;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CED408132E8456F9003337CF /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CED408062E845338003337CF /* Products */;
 			projectDirPath = "";
@@ -332,6 +341,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CED408132E8456F9003337CF /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.22.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CED408142E8456F9003337CF /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CED408132E8456F9003337CF /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CED407FD2E845338003337CF /* Project object */;
 }
