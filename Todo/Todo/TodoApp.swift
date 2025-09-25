@@ -12,8 +12,8 @@ import ComposableArchitecture
 struct TodoApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(store: Store(initialState: CounterFeature.State()) {
-                CounterFeature()
+            AppView(store: Store(initialState: AppFeature.State()) {
+                AppFeature()
             })
         }
     }
