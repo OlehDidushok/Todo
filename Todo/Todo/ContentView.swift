@@ -8,6 +8,10 @@
 import SwiftUI
 import ComposableArchitecture
 
+enum CancelID {
+    static let timer: String = "CounterFeature.timer"
+}
+
 @Reducer
 struct CounterFeature {
     func reduce(into state: inout State, action: Action) -> ComposableArchitecture.Effect<Action> {
@@ -30,26 +34,41 @@ struct CounterFeature {
                 let title = "\(count)_(number)".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? "\(count)_(number)"
                 var req = URLRequest(url: URL(string: "https://en.wikipedia.org/api/rest_v1/page/summary/\(title)")!)
                 req.setValue("TodoApp/1.0 (example)", forHTTPHeaderField: "User-Agent")
-
+                
                 let res = try? await URLSession.shared.data(for: req)
                 let http = res?.1 as? HTTPURLResponse
                 let ok = (http?.statusCode ?? 0) >= 200 && (http?.statusCode ?? 0) < 300
-
+                
                 let extract: String? = ok
-                    ? (((try? JSONSerialization.jsonObject(with: res?.0 ?? Data())) as? [String: Any])?["extract"] as? String)
-                    : nil
-
+                ? (((try? JSONSerialization.jsonObject(with: res?.0 ?? Data())) as? [String: Any])?["extract"] as? String)
+                : nil
+                
                 await send(.factResponse((extract?.isEmpty == false ? extract : nil) ?? "No info found for \(count)."))
             }
             
         case let .factResponse(fact):
-                state.fact = fact
-                state.isLoading = false
-                return .none
+            state.fact = fact
+            state.isLoading = false
+            return .none
+            
+        case .timerTick:
+            state.count += 1
+            state.fact = nil
+            return .none
             
         case .toggleTimerButtonTapped:
             state.isTimerRunning.toggle()
-            return .none
+            if state.isTimerRunning {
+                return .run { send in
+                    while true {
+                        try await Task.sleep(for: .seconds(1))
+                        await send(.timerTick)
+                    }
+                }
+                .cancellable(id: CancelID.timer)
+            } else {
+                return .cancel(id: CancelID.timer)
+            }
         }
     }
     
@@ -67,6 +86,7 @@ struct CounterFeature {
         case factResponse(String)
         case incrementButtonTapped
         case toggleTimerButtonTapped
+        case timerTick
     }
 }
 
