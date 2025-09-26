@@ -12,8 +12,8 @@ import ComposableArchitecture
 struct TodoApp: App {
     var body: some Scene {
         WindowGroup {
-            AppView(store: Store(initialState: AppFeature.State()) {
-                AppFeature()
+            ContactsView(store: Store(initialState: ContactsFeature.State()) {
+                ContactsFeature()
             })
         }
     }
