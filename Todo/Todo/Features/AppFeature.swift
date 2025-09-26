@@ -15,24 +15,22 @@ struct AppFeature {
         var tab1 = CounterFeature.State()
         var tab2 = CounterFeature.State()
     }
-
+    
     @CasePathable
     enum Action: Sendable {
         case tab1(CounterFeature.Action)
         case tab2(CounterFeature.Action)
     }
-
-    func reduce(into state: inout State, action: Action) -> ComposableArchitecture.Effect<Action> {
-        switch action {
-        case let .tab1(childAction):
-            return CounterFeature()
-                .reduce(into: &state.tab1, action: childAction)
-                .map(Action.tab1)
-
-        case let .tab2(childAction):
-            return CounterFeature()
-                .reduce(into: &state.tab2, action: childAction)
-                .map(Action.tab2)
+    
+    var body: some Reducer<State, Action> {
+        Scope(state: \.tab1, action: \.tab1) {
+            CounterFeature()
+        }
+        Scope(state: \.tab2, action: \.tab2) {
+            CounterFeature()
+        }
+        Reduce { state, action in
+            return .none
         }
     }
 }

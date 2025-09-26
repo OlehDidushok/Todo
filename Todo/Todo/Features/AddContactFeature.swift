@@ -11,24 +11,29 @@ import ComposableArchitecture
 @Reducer
 struct AddContactFeature {
     @ObservableState
-    struct State: Equatable {
+    struct State: Equatable, Sendable {
         var contact: Contact
     }
-    enum Action {
+    enum Action: Equatable, Sendable {
         case cancelButtonTapped
         case saveButtonTapped
         case setName(String)
     }
     
-    func reduce(into state: inout State, action: Action) -> ComposableArchitecture.Effect<Action> {
-        switch action {
-        case .cancelButtonTapped:
-            return .none
-        case .saveButtonTapped:
-            return .none
-        case .setName(let name):
-            state.contact.name = name
-            return .none
-        }
-    }
+    var body: some Reducer<State, Action> {
+           Reduce { state, action in
+               switch action {
+               case .cancelButtonTapped:
+                   return .none
+                   
+               case .saveButtonTapped:
+                   return .none
+                   
+               case let .setName(name):
+                   state.contact.name = name
+                   return .none
+               }
+           }
+       }
 }
+
